@@ -1,0 +1,21 @@
+:root {
+  color: #f7f4e8;
+  background: #060606;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: #060606;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
