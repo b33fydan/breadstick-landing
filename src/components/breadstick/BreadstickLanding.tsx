@@ -1,181 +1,49 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  modelStack,
+  priorityAccessHref,
+  priorityTiles,
+  secondaryTiles,
+  stats,
+  type PriorityTile,
+} from "../../data/promoContent";
 import "./breadstick.css";
 
-type DemoMode =
-  | "desktop"
-  | "react"
-  | "idle"
-  | "games"
-  | "drag"
-  | "outfits"
-  | "sound"
-  | "lightweight"
-  | "notes"
-  | "thinking"
-  | "timer"
-  | "privacy";
-
-interface Feature {
-  id: string;
-  title: string;
-  body: string;
-  mode: DemoMode;
-}
-
-const price = "$3.90";
-
-const featureTags = [
-  "Desktop companion",
-  "Reactions",
-  "Mini games",
-  "Idle animations",
-  "Drag & drop",
-  "Custom outfits",
-  "Sound on/off",
-  "Always with you",
-];
-
-const features: Feature[] = [
-  {
-    id: "01",
-    title: "Sits on your desktop",
-    body: "Breadstick keeps you company while you work or play.",
-    mode: "desktop",
-  },
-  {
-    id: "02",
-    title: "Reacts to you",
-    body: "Clicks, typing, windows, and apps trigger tiny notices.",
-    mode: "react",
-  },
-  {
-    id: "03",
-    title: "Idle animations",
-    body: "A sleepy snack dozes while your desktop calms down.",
-    mode: "idle",
-  },
-  {
-    id: "04",
-    title: "Mini games",
-    body: "Play quick snack-sized games right from your workspace.",
-    mode: "games",
-  },
-  {
-    id: "05",
-    title: "Drag & interact",
-    body: "Drag Breadstick around and see what happens next.",
-    mode: "drag",
-  },
-  {
-    id: "06",
-    title: "Outfits",
-    body: "Dress Breadstick in silly caps, bows, and launch skins.",
-    mode: "outfits",
-  },
-  {
-    id: "07",
-    title: "Sound on/off",
-    body: "Toggle warm crunches and gentle pings in settings.",
-    mode: "sound",
-  },
-  {
-    id: "08",
-    title: "Lightweight",
-    body: "Low on resources and built for always-on desktop play.",
-    mode: "lightweight",
-  },
-  {
-    id: "09",
-    title: "Unroll notes",
-    body: "Turn little reminders into sticky notes you can keep.",
-    mode: "notes",
-  },
-  {
-    id: "10",
-    title: "Think along",
-    body: "Breadstick hangs around while your assistant is thinking.",
-    mode: "thinking",
-  },
-  {
-    id: "11",
-    title: "Break timer",
-    body: "Set focus loops and let Breadstick announce soft breaks.",
-    mode: "timer",
-  },
-  {
-    id: "12",
-    title: "Private by design",
-    body: "Local-first personality with no surprise telemetry.",
-    mode: "privacy",
-  },
-];
-
-const galleryItems = [
-  {
-    title: "index.js",
-    kind: "code",
-    caption: 'function bread() { return "warm"; }',
-  },
-  {
-    title: "lofi beats",
-    kind: "music",
-    caption: "A small snack for a long playlist.",
-  },
-  {
-    title: "chat.exe",
-    kind: "chat",
-    caption: "got this! nice! let's go!",
-  },
-  {
-    title: "design.psd",
-    kind: "design",
-    caption: "Palette watched. Layers guarded.",
-  },
-];
+const ctaLabel = "Claim your seat";
 
 export function BreadstickLanding() {
-  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
-  const [showStickyBuy, setShowStickyBuy] = useState(false);
-  const [notice, setNotice] = useState("Breadstick is watching the cursor.");
-  const activeFeature = features[activeFeatureIndex];
-  const purchaseBullets = useMemo(
-    () => [
-      "Full Breadstick app",
-      "All desktop reactions",
-      "Mini games and idle poses",
-      "Outfits and launch skins",
-      "Future updates included",
-    ],
-    [],
-  );
+  const [activeTileIndex, setActiveTileIndex] = useState(0);
+  const [showSecondaryTiles, setShowSecondaryTiles] = useState(false);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+  const activeTile = priorityTiles[activeTileIndex];
 
   useEffect(() => {
-    document.title = "Breadstick | Pixel Desktop Companion";
+    document.title = "Breadstick | Priority Access";
   }, []);
 
   useEffect(() => {
     window.render_game_to_text = () =>
       JSON.stringify({
-        screen: "breadstick-landing",
-        activeFeature: activeFeature.title,
-        stickyBuyVisible: showStickyBuy,
-        notice,
+        screen: "breadstick-priority-access",
+        activeTile: activeTile.title,
+        stickyCtaVisible: showStickyCta,
+        secondaryTilesExpanded: showSecondaryTiles,
       });
     window.advanceTime = (ms: number) => {
       if (ms <= 0) return;
-      setActiveFeatureIndex((current) => (current + 1) % features.length);
+      setActiveTileIndex((current) => (current + 1) % priorityTiles.length);
     };
 
     return () => {
       delete window.render_game_to_text;
       delete window.advanceTime;
     };
-  }, [activeFeature.title, notice, showStickyBuy]);
+  }, [activeTile.title, showSecondaryTiles, showStickyCta]);
 
   useEffect(() => {
     const updateStickyState = () => {
-      const pricingBottom = document.getElementById("pricing")?.getBoundingClientRect().bottom ?? 0;
-      setShowStickyBuy(pricingBottom < 80);
+      const heroBottom = document.querySelector(".breadstick-hero-section")?.getBoundingClientRect().bottom ?? 0;
+      setShowStickyCta(heroBottom < 120);
     };
 
     updateStickyState();
@@ -184,105 +52,116 @@ export function BreadstickLanding() {
     return () => window.removeEventListener("scroll", updateStickyState);
   }, []);
 
-  const handleBuy = () => {
-    setNotice("Checkout stub ready. Payments are intentionally not wired yet.");
-    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const showDemo = () => {
-    const nextIndex = (activeFeatureIndex + 1) % features.length;
-    setActiveFeatureIndex(nextIndex);
-    setNotice(`${features[nextIndex].title}: ${features[nextIndex].body}`);
+  const goToPriorityAccess = () => {
+    document.getElementById("priority-access")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="breadstick-page" id="top">
-      <Header onBuy={handleBuy} />
+    <div className="breadstick-page breadstick-promo-page" id="top">
+      <Header onPriorityAccess={goToPriorityAccess} />
 
       <main>
-        <section className="breadstick-hero-section" aria-labelledby="hero-title">
+        <section className="breadstick-hero-section breadstick-promo-hero" aria-labelledby="hero-title">
           <div className="breadstick-hero-copy">
-            <h1 id="hero-title">A pixel snack that lives in your computer</h1>
-            <p>
-              Breadstick sits on your desktop, keeps you company, and reacts to
-              clicks, typing, meetings, and breaks.
+            <h1 id="hero-title">Run your whole AI-influencer pipeline from one canvas.</h1>
+            <p className="breadstick-hero-lede">
+              Script. Voice. Animate. Post. Score. One surface. Breadstick is the harness that wires the creator stack together.
             </p>
 
-            <div className="breadstick-tag-grid" aria-label="Breadstick features">
-              {featureTags.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-
             <div className="breadstick-hero-actions">
-              <button className="breadstick-pixel-button breadstick-pixel-button-dark" type="button" onClick={showDemo}>
-                See Breadstick in action
-                <span aria-hidden="true">&gt;</span>
+              <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={goToPriorityAccess}>
+                {ctaLabel}
               </button>
-              <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={handleBuy}>
-                Buy now
-                <strong>{price}</strong>
-              </button>
+              <a className="breadstick-pixel-button breadstick-pixel-button-dark" href="#priority-grid">
+                See what is inside
+              </a>
             </div>
           </div>
 
-          <DesktopWindow title="breadstick.exe" mode={activeFeature.mode} notice={notice} />
+          <PromoConsole activeTile={activeTile} />
         </section>
 
-        <PurchaseSection bullets={purchaseBullets} onBuy={handleBuy} />
+        <StatsBar />
 
-        <section className="breadstick-feature-section" id="features" aria-labelledby="features-title">
+        <section className="breadstick-wedge-section" aria-labelledby="wedge-title">
+          <div>
+            <h2 id="wedge-title">Everyone sells one tool. Breadstick sells the harness.</h2>
+            <p>
+              Script GPTs, video models, schedulers, voice tools, carousel builders. Useful alone. Brittle together.
+              Breadstick turns them into one deterministic operating surface with gates, scoring, and bring-your-own-key control.
+            </p>
+          </div>
+          <a className="breadstick-inline-cta" href={priorityAccessHref} onClick={goToPriorityAccess}>
+            Get priority access
+          </a>
+        </section>
+
+        <section className="breadstick-feature-section breadstick-priority-section" id="priority-grid" aria-labelledby="features-title">
           <div className="breadstick-section-heading">
-            <h2 id="features-title">Look what Breadstick can do!</h2>
-            <p>Snack-sized desktop moments for focus, fun, and tiny interruptions.</p>
+            <h2 id="features-title">Priority operators get the whole machine.</h2>
+            <p>12 real lanes. One workflow. Built for AI-character accounts that need output and feedback, not another tab.</p>
           </div>
 
-          <div className="breadstick-feature-grid">
-            {features.map((feature, index) => (
-              <button
-                className={`breadstick-feature-card ${index === activeFeatureIndex ? "breadstick-feature-card-active" : ""}`}
-                key={feature.id}
-                type="button"
-                onClick={() => {
-                  setActiveFeatureIndex(index);
-                  setNotice(`${feature.title}: ${feature.body}`);
-                }}
-                onMouseEnter={() => setActiveFeatureIndex(index)}
-              >
-                <div className="breadstick-feature-title-row">
-                  <span>{feature.id}</span>
-                  <strong>{feature.title}</strong>
-                </div>
-                <FeatureScene mode={feature.mode} />
-                <p>{feature.body}</p>
-              </button>
+          <div className="breadstick-priority-grid">
+            {priorityTiles.map((tile, index) => (
+              <PriorityTileCard
+                active={index === activeTileIndex}
+                key={tile.id}
+                onSelect={() => setActiveTileIndex(index)}
+                tile={tile}
+              />
             ))}
           </div>
         </section>
 
-        <GallerySection />
+        <section className="breadstick-depth-section" aria-labelledby="depth-title">
+          <div className="breadstick-depth-header">
+            <div>
+              <h2 id="depth-title">And a lot more inside.</h2>
+              <p>Real depth, kept lighter on the page. Expand it when you want the full operator inventory.</p>
+            </div>
+            <button className="breadstick-mini-buy" type="button" onClick={() => setShowSecondaryTiles((value) => !value)}>
+              {showSecondaryTiles ? "Hide depth" : "See everything"}
+            </button>
+          </div>
 
-        <PurchaseSection bullets={purchaseBullets} onBuy={handleBuy} compact />
+          {showSecondaryTiles && (
+            <div className="breadstick-secondary-grid">
+              {secondaryTiles.map((tile) => (
+                <article className="breadstick-secondary-card" key={tile.title}>
+                  <span>{tile.title}</span>
+                  <h3>{tile.headline}</h3>
+                  <p>{tile.body}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <HowItWorksSection />
+        <OfferSection onPriorityAccess={goToPriorityAccess} />
+        <FaqSection />
       </main>
 
-      <Footer />
-      {showStickyBuy && <StickyBuyBar onBuy={handleBuy} />}
+      <Footer onPriorityAccess={goToPriorityAccess} />
+      {showStickyCta && <StickyCta onPriorityAccess={goToPriorityAccess} />}
     </div>
   );
 }
 
-function Header({ onBuy }: { onBuy: () => void }) {
+function Header({ onPriorityAccess }: { onPriorityAccess: () => void }) {
   return (
     <header className="breadstick-site-header">
       <a className="breadstick-brand-mark" href="#top" aria-label="Breadstick home">
-        <PixelBreadstick size="tiny" mode="desktop" />
+        <PixelBreadstick size="tiny" />
         <span>Breadstick</span>
       </a>
 
       <nav className="breadstick-site-nav" aria-label="Primary navigation">
-        <a href="#features">Features</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#pricing">Price</a>
+        <a href="#priority-grid">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#priority-access">Priority Access</a>
       </nav>
 
       <div className="breadstick-header-actions">
@@ -291,289 +170,262 @@ function Header({ onBuy }: { onBuy: () => void }) {
           <span />
           <span />
         </div>
-        <button className="breadstick-mini-buy" type="button" onClick={onBuy}>
-          Buy now
+        <button className="breadstick-mini-buy" type="button" onClick={onPriorityAccess}>
+          {ctaLabel}
         </button>
       </div>
     </header>
   );
 }
 
-function DesktopWindow({
-  title,
-  mode,
-  notice,
-}: {
-  title: string;
-  mode: DemoMode;
-  notice: string;
-}) {
+function PromoConsole({ activeTile }: { activeTile: PriorityTile }) {
   return (
-    <div className="breadstick-desktop-window" aria-label="Breadstick desktop preview">
+    <div className="breadstick-promo-console" aria-label="Breadstick control surface preview">
       <div className="breadstick-window-chrome">
-        <span>{title}</span>
+        <span>breadstick.pipeline</span>
         <div className="breadstick-chrome-controls" aria-hidden="true">
           <i />
           <i />
           <i />
         </div>
       </div>
-      <div className="breadstick-desktop-body">
-        <div className="breadstick-desktop-icons" aria-hidden="true">
-          <DesktopIcon icon="monitor" label="My Computer" />
-          <DesktopIcon icon="folder" label="Documents" />
-          <DesktopIcon icon="trash" label="Trash" />
+      <div className="breadstick-console-body">
+        <div className="breadstick-console-rail">
+          <span>input</span>
+          <span>gate</span>
+          <span>render</span>
+          <span>score</span>
         </div>
-        <div className="breadstick-desktop-mascot">
-          <PixelBreadstick size="large" mode={mode} />
-          <span className="breadstick-speech-bubble">{notice}</span>
+        <div className="breadstick-node-map" aria-hidden="true">
+          <span className="breadstick-node breadstick-node-active">script</span>
+          <span className="breadstick-node">voice</span>
+          <span className="breadstick-node">image</span>
+          <span className="breadstick-node">animate</span>
+          <span className="breadstick-node">caption</span>
+          <span className="breadstick-node">post</span>
+          <i className="breadstick-wire breadstick-wire-one" />
+          <i className="breadstick-wire breadstick-wire-two" />
+          <i className="breadstick-wire breadstick-wire-three" />
+        </div>
+        <div className="breadstick-active-tile-readout">
+          <span>{activeTile.id}</span>
+          <h2>{activeTile.title}</h2>
+          <p>{activeTile.headline}</p>
         </div>
       </div>
       <div className="breadstick-desktop-taskbar">
-        <span className="breadstick-start-button">Start</span>
-        <span>12:00 PM</span>
+        <span className="breadstick-start-button">BYOK</span>
+        <span>SHIP / SCORE</span>
         <span className="breadstick-speaker-icon" aria-hidden="true" />
       </div>
     </div>
   );
 }
 
-function DesktopIcon({ icon, label }: { icon: string; label: string }) {
+function StatsBar() {
   return (
-    <div className={`breadstick-desktop-icon breadstick-desktop-icon-${icon}`}>
-      <span />
-      <small>{label}</small>
-    </div>
-  );
-}
-
-function PurchaseSection({
-  bullets,
-  onBuy,
-  compact = false,
-}: {
-  bullets: string[];
-  onBuy: () => void;
-  compact?: boolean;
-}) {
-  return (
-    <section
-      className={`breadstick-purchase-sheet ${compact ? "breadstick-purchase-sheet-compact" : ""}`}
-      id={compact ? "download" : "pricing"}
-      aria-labelledby={compact ? "download-title" : "pricing-title"}
-    >
-      <div className="breadstick-purchase-copy">
-        <h2 id={compact ? "download-title" : "pricing-title"}>
-          One stick. Ready for your desktop.
-        </h2>
-        <ul>
-          <li>Sits on top of your desktop</li>
-          <li>Reacts to clicks, typing, and apps</li>
-          <li>Dozens of idle animations</li>
-          <li>Mini games and fun interactions</li>
-          <li>Lightweight and always out of the way</li>
-        </ul>
-        <div className="breadstick-platform-row" aria-label="Supported platforms">
-          <span className="breadstick-platform breadstick-platform-windows" aria-hidden="true" />
-          <span>Windows 10+</span>
-          <span className="breadstick-platform breadstick-platform-mac" aria-hidden="true" />
-          <span>macOS 11+</span>
+    <section className="breadstick-stats-bar" aria-label="Breadstick capability stats">
+      {stats.map((stat) => (
+        <div className="breadstick-stat" key={`${stat.number}-${stat.label}`}>
+          <strong>{stat.number}</strong>
+          <span>{stat.label}</span>
         </div>
-        <a className="breadstick-download-link" href="#download">
-          Already purchased? Download Breadstick
-        </a>
-      </div>
-
-      <div className="breadstick-checkout-box">
-        <div className="breadstick-checkout-price">
-          <PixelBreadstick size="small" mode="desktop" />
-          <span>{price}</span>
-        </div>
-        <div className="breadstick-checkout-inner">
-          <h3>What you get:</h3>
-          <ul>
-            {bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
-          <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onBuy}>
-            Buy now
-            <strong>{price}</strong>
-          </button>
-          <button className="breadstick-pixel-button breadstick-pixel-button-dark" type="button">
-            Gift this app
-          </button>
-        </div>
-        <p>One-time payment. No subscriptions.</p>
-      </div>
+      ))}
     </section>
   );
 }
 
-function FeatureScene({ mode }: { mode: DemoMode }) {
+function PriorityTileCard({
+  active,
+  onSelect,
+  tile,
+}: {
+  active: boolean;
+  onSelect: () => void;
+  tile: PriorityTile;
+}) {
   return (
-    <div className={`breadstick-feature-scene breadstick-feature-scene-${mode}`} aria-hidden="true">
-      {mode === "desktop" && (
-        <>
-          <div className="breadstick-mini-taskbar">
-            <i />
-            <i />
-            <i />
-            <span>12:00 PM</span>
-          </div>
-          <PixelBreadstick size="small" mode="desktop" />
-        </>
-      )}
-
-      {mode === "react" && (
-        <>
-          <span className="breadstick-spark breadstick-spark-left">+</span>
-          <PixelBreadstick size="medium" mode="react" />
-          <span className="breadstick-spark breadstick-spark-right">+</span>
-        </>
-      )}
-
-      {mode === "idle" && <PixelBreadstick size="wide" mode="idle" />}
-
-      {mode === "games" && (
-        <>
-          <div className="breadstick-score-row">
-            <span>Score: 12</span>
-            <span>HP HP HP</span>
-          </div>
-          <PixelBreadstick size="small" mode="desktop" />
-          <span className="breadstick-berry" />
-        </>
-      )}
-
-      {mode === "drag" && (
-        <>
-          <PixelBreadstick size="medium" mode="drag" />
-          <span className="breadstick-cursor-hand" />
-        </>
-      )}
-
-      {mode === "outfits" && <PixelBreadstick size="medium" mode="outfits" />}
-
-      {mode === "sound" && (
-        <div className="breadstick-sound-scene">
-          <span className="breadstick-speaker-shape" />
-          <strong>x</strong>
+    <button
+      className={`breadstick-priority-card ${active ? "breadstick-priority-card-active" : ""}`}
+      type="button"
+      onClick={onSelect}
+      onMouseEnter={onSelect}
+    >
+      <div className="breadstick-tile-image-shell">
+        <div className="breadstick-tile-image-fallback" aria-hidden="true">
+          <span>{tile.id}</span>
+          <small>16gami image slot</small>
         </div>
-      )}
-
-      {mode === "lightweight" && (
-        <div className="breadstick-meter-window">
-          <span>CPU 0.3%</span>
-          <span>RAM 38MB</span>
+        <img
+          alt={tile.imageAlt}
+          loading="lazy"
+          src={tile.image}
+          onLoad={(event) => {
+            event.currentTarget.classList.add("breadstick-tile-image-loaded");
+          }}
+          onError={(event) => {
+            event.currentTarget.remove();
+          }}
+        />
+      </div>
+      <div className="breadstick-priority-card-copy">
+        <div className="breadstick-feature-title-row">
+          <span>{tile.id}</span>
+          <strong>{tile.title}</strong>
         </div>
-      )}
-
-      {mode === "notes" && (
-        <>
-          <div className="breadstick-paper-note">take a break</div>
-          <PixelBreadstick size="small" mode="desktop" />
-        </>
-      )}
-
-      {mode === "thinking" && (
-        <div className="breadstick-chat-scene">
-          <code>function bread()</code>
-          <PixelBreadstick size="small" mode="desktop" />
-        </div>
-      )}
-
-      {mode === "timer" && (
-        <>
-          <span className="breadstick-timer-badge">Break 00:32</span>
-          <PixelBreadstick size="medium" mode="timer" />
-        </>
-      )}
-
-      {mode === "privacy" && (
-        <>
-          <div className="breadstick-lock-window">local only</div>
-          <PixelBreadstick size="small" mode="desktop" />
-        </>
-      )}
-    </div>
+        <p className="breadstick-kills">Kills: {tile.kills}</p>
+        <h3>{tile.headline}</h3>
+        <p>{tile.subcopy}</p>
+      </div>
+    </button>
   );
 }
 
-function GallerySection() {
+function HowItWorksSection() {
+  const steps = [
+    {
+      title: "Wire it",
+      body: "Pick the lane, character, model stack, gate, and destination. The canvas holds the whole route.",
+    },
+    {
+      title: "Generate it",
+      body: "Scripts, voices, stills, clips, captions, and carousels move through one control surface.",
+    },
+    {
+      title: "Score it",
+      body: "Posts are tagged at birth, pulled back into the ledger, and rotated by performance.",
+    },
+  ];
+
   return (
-    <section className="breadstick-gallery-section" id="gallery" aria-labelledby="gallery-title">
-      <h2 id="gallery-title">Breadstick in the wild</h2>
-      <div className="breadstick-gallery-rail">
-        {galleryItems.map((item) => (
-          <article className={`breadstick-gallery-window breadstick-gallery-window-${item.kind}`} key={item.title}>
-            <div className="breadstick-gallery-chrome">
-              <span>{item.title}</span>
-              <i />
-              <i />
-              <i />
-            </div>
-            <div className="breadstick-gallery-body">
-              <PixelBreadstick size="small" mode={item.kind === "music" ? "timer" : "desktop"} />
-              <p>{item.caption}</p>
-            </div>
+    <section className="breadstick-how-section" id="how-it-works" aria-labelledby="how-title">
+      <div className="breadstick-section-heading">
+        <h2 id="how-title">Wire it. Generate it. Score it.</h2>
+        <p>{modelStack} One control surface. You never tab-hop again.</p>
+      </div>
+      <div className="breadstick-how-grid">
+        {steps.map((step, index) => (
+          <article className="breadstick-how-card" key={step.title}>
+            <span>0{index + 1}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
           </article>
         ))}
       </div>
-      <div className="breadstick-slider-dots" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <span />
+    </section>
+  );
+}
+
+function OfferSection({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+  return (
+    <section className="breadstick-offer-section" id="priority-access" aria-labelledby="offer-title">
+      <div className="breadstick-offer-copy">
+        <h2 id="offer-title">Priority Access - Founding Operators.</h2>
+        <p>
+          Join early access to the Breadstick app, the Skool community, and the build-from-scratch tutorial track.
+          Bring your keys. Own your pipeline. Build in public while the roadmap is still soft clay.
+        </p>
+        <ul>
+          <li>Early access to the BYOK Breadstick app.</li>
+          <li>Skool community and operator room.</li>
+          <li>Recipes, skills, and Claude-Code workflow discipline.</li>
+          <li>Direct line into the roadmap while founding terms are open.</li>
+        </ul>
+      </div>
+      <div className="breadstick-offer-box">
+        <span>Founding cohort</span>
+        <h3>Seat count and price drop next.</h3>
+        <p>Dan fills the cap, founding rate, and Skool link when the cohort opens. The page is wired to one CTA.</p>
+        <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onPriorityAccess}>
+          Get priority access
+        </button>
+        <small>Bring your own keys. Own your pipeline. Leave whenever - but founding terms only apply while they are available.</small>
       </div>
     </section>
   );
 }
 
-function StickyBuyBar({ onBuy }: { onBuy: () => void }) {
+function FaqSection() {
+  const faqs = [
+    {
+      question: "Do I need my own API keys?",
+      answer:
+        "Yes. Breadstick is BYOK for Anthropic, kie.ai, ElevenLabs, and the rest of your stack. That is the point: you own the pipeline and the spend.",
+    },
+    {
+      question: "Is this just another wrapper?",
+      answer:
+        "No. The value is the harness: 65+ nodes, deterministic gates, a performance ledger, and a scoreboard that feeds the next content decision.",
+    },
+    {
+      question: "Which platforms does it post to?",
+      answer:
+        "TikTok, Instagram, and Facebook through Postiz and Blotato, with post tags carried back into the Scoreboard.",
+    },
+    {
+      question: "What happens if a render repeats?",
+      answer:
+        "The render cache keeps repeat work from being paid twice when the same output is already available.",
+    },
+  ];
+
   return (
-    <aside className="breadstick-sticky-buy-bar" aria-label="Buy Breadstick">
+    <section className="breadstick-faq-section" id="faq" aria-labelledby="faq-title">
+      <div className="breadstick-section-heading">
+        <h2 id="faq-title">FAQ</h2>
+        <p>Short answers for operators who care about control, cost, and whether the thing actually ships.</p>
+      </div>
+      <div className="breadstick-faq-list">
+        {faqs.map((faq) => (
+          <details className="breadstick-faq-item" key={faq.question}>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StickyCta({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+  return (
+    <aside className="breadstick-sticky-buy-bar" aria-label="Priority Access">
       <div className="breadstick-sticky-product">
-        <PixelBreadstick size="small" mode="desktop" />
+        <PixelBreadstick size="small" />
         <div>
-          <strong>One stick. Ready for your desktop.</strong>
-          <span>A tiny companion for your digital world.</span>
+          <strong>Priority Access is the sell.</strong>
+          <span>Community, harness, recipes, and the operator room.</span>
         </div>
       </div>
-      <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onBuy}>
-        Buy now
-        <strong>{price}</strong>
+      <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onPriorityAccess}>
+        {ctaLabel}
       </button>
     </aside>
   );
 }
 
-function Footer() {
+function Footer({ onPriorityAccess }: { onPriorityAccess: () => void }) {
   return (
     <footer className="breadstick-site-footer">
       <a className="breadstick-brand-mark" href="#top" aria-label="Back to top">
-        <PixelBreadstick size="tiny" mode="desktop" />
+        <PixelBreadstick size="tiny" />
         <span>Breadstick</span>
       </a>
-      <p>Copyright 2026 Breadstick. All rights reserved.</p>
+      <p>Claude Code for AI influencers. Bring your keys. Own your pipeline.</p>
       <nav aria-label="Footer navigation">
-        <a href="#pricing">Terms</a>
-        <a href="#features">Privacy</a>
-        <a href="#top">Top</a>
+        <a href="#priority-grid">Features</a>
+        <a href="#faq">FAQ</a>
+        <button type="button" onClick={onPriorityAccess}>
+          {ctaLabel}
+        </button>
       </nav>
     </footer>
   );
 }
 
-function PixelBreadstick({
-  size,
-  mode,
-}: {
-  size: "tiny" | "small" | "medium" | "large" | "wide";
-  mode: DemoMode | "desktop";
-}) {
+function PixelBreadstick({ size }: { size: "tiny" | "small" }) {
   return (
-    <span className={`breadstick-pixel-breadstick breadstick-pixel-breadstick-${size} breadstick-${mode}`} aria-hidden="true">
+    <span className={`breadstick-pixel-breadstick breadstick-pixel-breadstick-${size}`} aria-hidden="true">
       <span className="breadstick-body">
         <span className="breadstick-toast-shine" />
         <span className="breadstick-seed breadstick-seed-one" />
@@ -588,8 +440,6 @@ function PixelBreadstick({
       <span className="breadstick-arm breadstick-arm-right" />
       <span className="breadstick-leg breadstick-leg-left" />
       <span className="breadstick-leg breadstick-leg-right" />
-      {mode === "outfits" && <span className="breadstick-cap" />}
-      {mode === "idle" && <span className="breadstick-sleep-mark">Z</span>}
     </span>
   );
 }
