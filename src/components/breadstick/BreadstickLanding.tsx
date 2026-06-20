@@ -1,37 +1,36 @@
 import { useEffect, useState } from "react";
 import {
+  featureTiles,
+  joinCtaLabel,
+  joinHref,
   modelStack,
-  priorityAccessHref,
-  priorityTiles,
   secondaryTiles,
   stats,
-  type PriorityTile,
+  type FeatureTile,
 } from "../../data/promoContent";
 import "./breadstick.css";
-
-const ctaLabel = "Claim your seat";
 
 export function BreadstickLanding() {
   const [activeTileIndex, setActiveTileIndex] = useState(0);
   const [showSecondaryTiles, setShowSecondaryTiles] = useState(false);
   const [showStickyCta, setShowStickyCta] = useState(false);
-  const activeTile = priorityTiles[activeTileIndex];
+  const activeTile = featureTiles[activeTileIndex];
 
   useEffect(() => {
-    document.title = "Breadstick | Priority Access";
+    document.title = "Breadstick | Join Today!";
   }, []);
 
   useEffect(() => {
     window.render_game_to_text = () =>
       JSON.stringify({
-        screen: "breadstick-priority-access",
+        screen: "breadstick-free-skool-gateway",
         activeTile: activeTile.title,
         stickyCtaVisible: showStickyCta,
         secondaryTilesExpanded: showSecondaryTiles,
       });
     window.advanceTime = (ms: number) => {
       if (ms <= 0) return;
-      setActiveTileIndex((current) => (current + 1) % priorityTiles.length);
+      setActiveTileIndex((current) => (current + 1) % featureTiles.length);
     };
 
     return () => {
@@ -52,28 +51,21 @@ export function BreadstickLanding() {
     return () => window.removeEventListener("scroll", updateStickyState);
   }, []);
 
-  const goToPriorityAccess = () => {
-    document.getElementById("priority-access")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <div className="breadstick-page breadstick-promo-page" id="top">
-      <Header onPriorityAccess={goToPriorityAccess} />
+      <Header />
 
       <main>
         <section className="breadstick-hero-section breadstick-promo-hero" aria-labelledby="hero-title">
           <div className="breadstick-hero-copy">
-            <h1 id="hero-title">Run your whole AI-influencer pipeline from one canvas.</h1>
+            <h1 id="hero-title">From idea to posted. One canvas.</h1>
             <p className="breadstick-hero-lede">
-              Script. Voice. Animate. Post. Score. One surface. Breadstick is the harness that wires the creator stack together.
+              Ideate. Write. Record. Edit. Caption. Post. Score. Breadstick is free. Bring your own keys. The community is the door.
             </p>
 
             <div className="breadstick-hero-actions">
-              <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={goToPriorityAccess}>
-                {ctaLabel}
-              </button>
-              <a className="breadstick-pixel-button breadstick-pixel-button-dark" href="#priority-grid">
-                See what is inside
+              <a className="breadstick-pixel-button breadstick-pixel-button-gold" href={joinHref}>
+                {joinCtaLabel}
               </a>
             </div>
           </div>
@@ -85,26 +77,26 @@ export function BreadstickLanding() {
 
         <section className="breadstick-wedge-section" aria-labelledby="wedge-title">
           <div>
-            <h2 id="wedge-title">Everyone sells one tool. Breadstick sells the harness.</h2>
+            <h2 id="wedge-title">Everyone sells one tool. Breadstick is the harness.</h2>
             <p>
               Script GPTs, video models, schedulers, voice tools, carousel builders. Useful alone. Brittle together.
-              Breadstick turns them into one deterministic operating surface with gates, scoring, and bring-your-own-key control.
+              Breadstick turns them into one operating surface for creators who need output, feedback, and control.
             </p>
           </div>
-          <a className="breadstick-inline-cta" href={priorityAccessHref} onClick={goToPriorityAccess}>
-            Get priority access
+          <a className="breadstick-inline-cta" href={joinHref}>
+            {joinCtaLabel}
           </a>
         </section>
 
         <section className="breadstick-feature-section breadstick-priority-section" id="priority-grid" aria-labelledby="features-title">
           <div className="breadstick-section-heading">
-            <h2 id="features-title">Priority operators get the whole machine.</h2>
-            <p>12 real lanes. One workflow. Built for AI-character accounts that need output and feedback, not another tab.</p>
+            <h2 id="features-title">What can Breadstick do?</h2>
+            <p>12 friction killers for creators who need the hours back, not another tab.</p>
           </div>
 
           <div className="breadstick-priority-grid">
-            {priorityTiles.map((tile, index) => (
-              <PriorityTileCard
+            {featureTiles.map((tile, index) => (
+              <FeatureTileCard
                 active={index === activeTileIndex}
                 key={tile.id}
                 onSelect={() => setActiveTileIndex(index)}
@@ -139,17 +131,17 @@ export function BreadstickLanding() {
         </section>
 
         <HowItWorksSection />
-        <OfferSection onPriorityAccess={goToPriorityAccess} />
+        <OfferSection />
         <FaqSection />
       </main>
 
-      <Footer onPriorityAccess={goToPriorityAccess} />
-      {showStickyCta && <StickyCta onPriorityAccess={goToPriorityAccess} />}
+      <Footer />
+      {showStickyCta && <StickyCta />}
     </div>
   );
 }
 
-function Header({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+function Header() {
   return (
     <header className="breadstick-site-header">
       <a className="breadstick-brand-mark" href="#top" aria-label="Breadstick home">
@@ -161,7 +153,7 @@ function Header({ onPriorityAccess }: { onPriorityAccess: () => void }) {
         <a href="#priority-grid">Features</a>
         <a href="#how-it-works">How it works</a>
         <a href="#faq">FAQ</a>
-        <a href="#priority-access">Priority Access</a>
+        <a href="#join">Join</a>
       </nav>
 
       <div className="breadstick-header-actions">
@@ -170,15 +162,15 @@ function Header({ onPriorityAccess }: { onPriorityAccess: () => void }) {
           <span />
           <span />
         </div>
-        <button className="breadstick-mini-buy" type="button" onClick={onPriorityAccess}>
-          {ctaLabel}
-        </button>
+        <a className="breadstick-mini-buy" href={joinHref}>
+          {joinCtaLabel}
+        </a>
       </div>
     </header>
   );
 }
 
-function PromoConsole({ activeTile }: { activeTile: PriorityTile }) {
+function PromoConsole({ activeTile }: { activeTile: FeatureTile }) {
   return (
     <div className="breadstick-promo-console" aria-label="Breadstick control surface preview">
       <div className="breadstick-window-chrome">
@@ -235,14 +227,14 @@ function StatsBar() {
   );
 }
 
-function PriorityTileCard({
+function FeatureTileCard({
   active,
   onSelect,
   tile,
 }: {
   active: boolean;
   onSelect: () => void;
-  tile: PriorityTile;
+  tile: FeatureTile;
 }) {
   return (
     <button
@@ -288,8 +280,8 @@ function HowItWorksSection() {
       body: "Pick the lane, character, model stack, gate, and destination. The canvas holds the whole route.",
     },
     {
-      title: "Generate it",
-      body: "Scripts, voices, stills, clips, captions, and carousels move through one control surface.",
+      title: "Make it",
+      body: "Scripts, voices, stills, clips, captions, edits, and carousels move through one control surface.",
     },
     {
       title: "Score it",
@@ -300,7 +292,7 @@ function HowItWorksSection() {
   return (
     <section className="breadstick-how-section" id="how-it-works" aria-labelledby="how-title">
       <div className="breadstick-section-heading">
-        <h2 id="how-title">Wire it. Generate it. Score it.</h2>
+        <h2 id="how-title">Wire it. Make it. Score it.</h2>
         <p>{modelStack} One control surface. You never tab-hop again.</p>
       </div>
       <div className="breadstick-how-grid">
@@ -316,30 +308,30 @@ function HowItWorksSection() {
   );
 }
 
-function OfferSection({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+function OfferSection() {
   return (
-    <section className="breadstick-offer-section" id="priority-access" aria-labelledby="offer-title">
+    <section className="breadstick-offer-section" id="join" aria-labelledby="offer-title">
       <div className="breadstick-offer-copy">
-        <h2 id="offer-title">Priority Access - Founding Operators.</h2>
+        <h2 id="offer-title">Breadstick is free. The community is the door.</h2>
         <p>
-          Join early access to the Breadstick app, the Skool community, and the build-from-scratch tutorial track.
-          Bring your keys. Own your pipeline. Build in public while the roadmap is still soft clay.
+          Bring your own keys. Use the full Breadstick app. Join the Breadstick.ai Skool community for the recipes,
+          skills library, build-from-scratch tutorial track, and a direct line into the roadmap while it is still soft clay.
         </p>
         <ul>
-          <li>Early access to the BYOK Breadstick app.</li>
-          <li>Skool community and operator room.</li>
+          <li>Full BYOK Breadstick app access.</li>
+          <li>Breadstick.ai Skool community and operator room.</li>
           <li>Recipes, skills, and Claude-Code workflow discipline.</li>
-          <li>Direct line into the roadmap while founding terms are open.</li>
+          <li>Build-from-scratch tutorials and roadmap feedback.</li>
         </ul>
       </div>
       <div className="breadstick-offer-box">
-        <span>Founding cohort</span>
-        <h3>Seat count and price drop next.</h3>
-        <p>Dan fills the cap, founding rate, and Skool link when the cohort opens. The page is wired to one CTA.</p>
-        <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onPriorityAccess}>
-          Get priority access
-        </button>
-        <small>Bring your own keys. Own your pipeline. Leave whenever - but founding terms only apply while they are available.</small>
+        <span>Free BYOK access</span>
+        <h3>No subscription. No checkout.</h3>
+        <p>Breadstick is free. Bring your own keys. The only key to the door is the community.</p>
+        <a className="breadstick-pixel-button breadstick-pixel-button-gold" href={joinHref}>
+          {joinCtaLabel}
+        </a>
+        <small>No subscription. No checkout. Own your pipeline. Leave whenever - the work is yours.</small>
       </div>
     </section>
   );
@@ -348,6 +340,11 @@ function OfferSection({ onPriorityAccess }: { onPriorityAccess: () => void }) {
 function FaqSection() {
   const faqs = [
     {
+      question: "What does it cost?",
+      answer:
+        "Breadstick is free to use. Bring your own API keys. The only ask is joining the Breadstick.ai Skool community.",
+    },
+    {
       question: "Do I need my own API keys?",
       answer:
         "Yes. Breadstick is BYOK for Anthropic, kie.ai, ElevenLabs, and the rest of your stack. That is the point: you own the pipeline and the spend.",
@@ -355,17 +352,11 @@ function FaqSection() {
     {
       question: "Is this just another wrapper?",
       answer:
-        "No. The value is the harness: 65+ nodes, deterministic gates, a performance ledger, and a scoreboard that feeds the next content decision.",
+        "No. The value is the harness: editing canvas, deterministic gates, scoreboard, ledger, and the node system that wires the creator stack together.",
     },
     {
-      question: "Which platforms does it post to?",
-      answer:
-        "TikTok, Instagram, and Facebook through Postiz and Blotato, with post tags carried back into the Scoreboard.",
-    },
-    {
-      question: "What happens if a render repeats?",
-      answer:
-        "The render cache keeps repeat work from being paid twice when the same output is already available.",
+      question: "How do I get in?",
+      answer: "Join the Skool. That is the gateway to the app, the recipes, the tutorial track, and the operator room.",
     },
   ];
 
@@ -387,37 +378,35 @@ function FaqSection() {
   );
 }
 
-function StickyCta({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+function StickyCta() {
   return (
-    <aside className="breadstick-sticky-buy-bar" aria-label="Priority Access">
+    <aside className="breadstick-sticky-buy-bar" aria-label="Join Breadstick">
       <div className="breadstick-sticky-product">
         <PixelBreadstick size="small" />
         <div>
-          <strong>Priority Access is the sell.</strong>
+          <strong>Breadstick is free.</strong>
           <span>Community, harness, recipes, and the operator room.</span>
         </div>
       </div>
-      <button className="breadstick-pixel-button breadstick-pixel-button-gold" type="button" onClick={onPriorityAccess}>
-        {ctaLabel}
-      </button>
+      <a className="breadstick-pixel-button breadstick-pixel-button-gold" href={joinHref}>
+        {joinCtaLabel}
+      </a>
     </aside>
   );
 }
 
-function Footer({ onPriorityAccess }: { onPriorityAccess: () => void }) {
+function Footer() {
   return (
     <footer className="breadstick-site-footer">
       <a className="breadstick-brand-mark" href="#top" aria-label="Back to top">
         <PixelBreadstick size="tiny" />
         <span>Breadstick</span>
       </a>
-      <p>Claude Code for AI influencers. Bring your keys. Own your pipeline.</p>
+      <p>Free BYOK content pipeline. Bring your keys. Own your work.</p>
       <nav aria-label="Footer navigation">
         <a href="#priority-grid">Features</a>
         <a href="#faq">FAQ</a>
-        <button type="button" onClick={onPriorityAccess}>
-          {ctaLabel}
-        </button>
+        <a href={joinHref}>{joinCtaLabel}</a>
       </nav>
     </footer>
   );

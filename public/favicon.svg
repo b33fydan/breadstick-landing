@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Breadstick">
+  <rect width="64" height="64" fill="#0a0a0f" />
+  <path d="M35 8c8 5 11 15 9 27-2 13-7 21-15 21-9 0-13-9-10-23C21 20 26 11 35 8Z" fill="#e9a644" stroke="#fbfbf6" stroke-width="3" />
+  <path d="M28 15c3-1 6-1 9 1M25 29c5-3 10-3 16 0M24 43c4 4 10 5 16 1" fill="none" stroke="#5c2c10" stroke-width="3" stroke-linecap="square" />
+  <path d="M31 8c-7 8-10 18-10 31" fill="none" stroke="#ffd744" stroke-width="3" stroke-linecap="square" />
+</svg>

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "01",
+    "title": "The Video Editing Canvas",
+    "kills": "The editing grind. Exporting to a separate NLE, scrubbing a timeline for an hour, and dreading the cut after you shoot.",
+    "headline": "Edit the whole video. Without leaving the canvas.",
+    "subcopy": "Drop your clips on the node canvas and shape the edit visually in one place. No round-trip to a separate editor, no project-file juggling. The edit lives beside the same pipeline that wrote the script and made the b-roll.",
+    "image": "/images/16gami/tile-01-video-editing-canvas.png",
+    "imageAlt": "Papercraft editing timeline with stacked clip blocks and a paper razor.",
+    "imageSubject": "A folded-paper editing timeline: a horizontal paper track with stacked paper clip-blocks of varying lengths, a tall paper playhead bar, and a small folded paper razor mid-cut over one clip, lit warm gold."
+  },
+  {
+    "id": "02",
+    "title": "The Script Factory",
+    "kills": "The blank page. The 3-hour what-do-I-even-post spiral.",
+    "headline": "Production-ready scripts. Not blank pages.",
+    "subcopy": "Pick a character, mix the ingredients - pain points, hooks, monetization, script type - and Breadstick writes a script good enough to paste straight into ElevenLabs. Persuasion psychology baked in: Life-Force 8, emotional-journey beats, the reframes that convert.",
+    "image": "/images/16gami/tile-02-script-factory.png",
+    "imageAlt": "Papercraft typewriter unspooling a paper script.",
+    "imageSubject": "A folded-paper vintage typewriter with a long paper script-scroll curling out of it, a few crisp folded pages fanned beside it."
+  },
+  {
+    "id": "03",
+    "title": "One Canvas, Whole Pipeline",
+    "kills": "14 browser tabs and a spreadsheet holding your pipeline together.",
+    "headline": "Your whole pipeline. One canvas.",
+    "subcopy": "Drag-and-wire nodes - characters, generators, video, carousels, editing, posting - connected like a circuit board. Trace a script from idea to posted reel without leaving the screen.",
+    "image": "/images/16gami/tile-03-one-canvas-whole-pipeline.png",
+    "imageAlt": "Papercraft node graph wired with paper ribbons.",
+    "imageSubject": "A papercraft circuit board / node graph with small folded paper cards linked by woven paper ribbon-wires, the active nodes lit warm gold."
+  },
+  {
+    "id": "04",
+    "title": "Characters That Stay Consistent",
+    "kills": "The face that morphs every video and the voice that never matches.",
+    "headline": "Characters with a face, a voice, and a memory.",
+    "subcopy": "Built-in operators across proven niches - and unlimited custom characters from one form. Consistent faces from Sora 2 cameos, consistent ElevenLabs voices, locked continuity across every clip. Your creator stops looking like five different people.",
+    "image": "/images/16gami/tile-04-characters-stay-consistent.png",
+    "imageAlt": "Three papercraft character masks on stands.",
+    "imageSubject": "A row of three distinct origami character paper-masks on little stands, each clearly a different person, same paper family."
+  },
+  {
+    "id": "05",
+    "title": "UGC Video Lane",
+    "kills": "The obviously AI plastic look that gets zero saves.",
+    "headline": "Talking-head UGC that reads as real.",
+    "subcopy": "Character to script to lip-synced clips with Kling 3.0 and the iPhone-real V4 prompt rules: micro-shake, skin texture, hand safety, mid-thought delivery. The anti-uncanny pipeline, automated.",
+    "image": "/images/16gami/tile-05-ugc-video-lane.png",
+    "imageAlt": "Papercraft phone on a tripod filming a paper person.",
+    "imageSubject": "A folded-paper smartphone on a tiny paper tripod filming a small paper person mid-gesture, a paper recording dot in the corner."
+  },
+  {
+    "id": "06",
+    "title": "16-Gami Explainer Art",
+    "kills": "Boring stock b-roll and flat slideshow art.",
+    "headline": "The papercraft look that makes people stop.",
+    "subcopy": "Breadstick's visual DNA - realistic 16-bit origami stills, character-locked across every shot, animated with Seedance 2.0. The exact style of the tiles you are looking at right now.",
+    "image": "/images/16gami/tile-06-16gami-explainer-art.png",
+    "imageAlt": "Paper hands folding a glowing origami crane.",
+    "imageSubject": "A pair of paper hands caught mid-fold, lifting a glowing origami crane out of a flat sheet: the brand's signature folding-into-life moment."
+  },
+  {
+    "id": "07",
+    "title": "Carousel Engine",
+    "kills": "Hand-stitching 8 slides in Canva at midnight.",
+    "headline": "Branded carousels in one render.",
+    "subcopy": "Topic in, multi-slide carousel out - branded templates and a compositor that drops live video into the slide art zones. Save-bait that looks designed, not dumped.",
+    "image": "/images/16gami/tile-07-carousel-engine.png",
+    "imageAlt": "Fanned stack of papercraft carousel slides.",
+    "imageSubject": "A fanned stack of paper slide-cards spread like a hand of cards, each a slightly different folded layout."
+  },
+  {
+    "id": "08",
+    "title": "Captions and Overlays",
+    "kills": "The caption pass. Burning subtitles by hand, lining up lower-thirds, and faking designed text.",
+    "headline": "Captions and motion graphics that pop.",
+    "subcopy": "Dozens of overlay compositions - hook captions, lower-thirds, highlight sweeps, burst lines, beat-synced text. Synced to your audio, burned in clean. The polish that earns the rewatch, without the timeline tedium.",
+    "image": "/images/16gami/tile-08-captions-overlays.png",
+    "imageAlt": "Papercraft lower-third banner and a burst of paper accent lines over a frame.",
+    "imageSubject": "A paper lower-third banner and a folded paper burst of exclamation lines popping over a blank paper video frame."
+  },
+  {
+    "id": "09",
+    "title": "Footage Lanes",
+    "kills": "The dead hours of manual cutting, grading, and clipping.",
+    "headline": "Drop raw footage. Get a finished cut.",
+    "subcopy": "Shortform and longform processors take a raw POV or desk recording through transcribe, silence-cut, overlay, color grade, ready clips, and metadata. A render cache means you never pay twice for the same work.",
+    "image": "/images/16gami/tile-09-footage-lanes.png",
+    "imageAlt": "Papercraft conveyor belt of film reels and a finished clip.",
+    "imageSubject": "A paper conveyor belt carrying folded film-reel and clapperboard pieces, a finished glossy paper clip dropping off the end into a tray."
+  },
+  {
+    "id": "10",
+    "title": "The Scoreboard",
+    "kills": "Posting into the void with no idea what worked.",
+    "headline": "It tells you what actually worked.",
+    "subcopy": "Every post is tagged at birth by lane and angle. Breadstick pulls real performance, keeps a ledger, and rotates your A/B angles on a deterministic rule - leader gets the budget, losers get cut. Arithmetic, never a vibe. Your content compounds.",
+    "image": "/images/16gami/tile-10-scoreboard.png",
+    "imageAlt": "Papercraft bar chart with a gold leading bar.",
+    "imageSubject": "A papercraft bar chart built from folded paper bars of rising height, the tallest bar gold and crowned with a tiny paper flag."
+  },
+  {
+    "id": "11",
+    "title": "Distribution",
+    "kills": "Copy-pasting the same post into three apps at the right time.",
+    "headline": "One post. Every platform. Tracked.",
+    "subcopy": "Schedule across TikTok, Instagram, and Facebook through Postiz and Blotato - and because every post is tagged at birth, the Scoreboard knows exactly which lane and angle earned the view.",
+    "image": "/images/16gami/tile-11-distribution.png",
+    "imageAlt": "Papercraft hub fanning arrows to three platform badges.",
+    "imageSubject": "A central paper hub with folded paper arrows fanning out to three small paper platform badges: a music-note, a camera, and an f, all kraft-and-gold."
+  },
+  {
+    "id": "12",
+    "title": "Run It From Your Phone",
+    "kills": "Being chained to the desk to make anything.",
+    "headline": "Your studio, in WhatsApp.",
+    "subcopy": "Drive the pipeline by text or voice from anywhere. A real voice answers; an ambient buddy narrates jobs as they finish; tickets ping you when a render is done. The studio comes with you.",
+    "image": "/images/16gami/tile-12-run-from-phone.png",
+    "imageAlt": "Papercraft phone with a chat bubble and a small paper astronaut.",
+    "imageSubject": "A folded-paper phone showing a paper chat-bubble, with a tiny paper astronaut buddy peeking over the top edge."
+  }
+]

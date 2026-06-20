@@ -4,15 +4,15 @@ Drop square PNG exports here with the filenames referenced from `src/data/promoC
 
 Expected names:
 
-- `tile-01-script-factory.png`
-- `tile-02-canvas.png`
-- `tile-03-consistent-characters.png`
-- `tile-04-ugc-video.png`
-- `tile-05-16gami-art.png`
-- `tile-06-carousel-engine.png`
-- `tile-07-voice-deploy.png`
-- `tile-08-scoreboard.png`
-- `tile-09-ship-gate.png`
-- `tile-10-phone-studio.png`
-- `tile-11-footage-lanes.png`
-- `tile-12-distribution.png`
+- `tile-01-video-editing-canvas.png`
+- `tile-02-script-factory.png`
+- `tile-03-one-canvas-whole-pipeline.png`
+- `tile-04-characters-stay-consistent.png`
+- `tile-05-ugc-video-lane.png`
+- `tile-06-16gami-explainer-art.png`
+- `tile-07-carousel-engine.png`
+- `tile-08-captions-overlays.png`
+- `tile-09-footage-lanes.png`
+- `tile-10-scoreboard.png`
+- `tile-11-distribution.png`
+- `tile-12-run-from-phone.png`
